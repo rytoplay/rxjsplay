@@ -1,0 +1,53 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+
+
+
+
+
+<br><hr><br>
+// http://reactivex.io/rxjs/manual/tutorial.html#creating-observables <br>
+Note for Angular2: The reactive/rxjs library refers directly to Observable objects, so instead of<br>
+<code>var clicks = Rx.Observable.fromEvent(document, 'click');</code><br>
+We import the 'fromEvent' object and write:
+<code>import &#123; fromEvent &#125; from 'rxjs';<br>
+  ...<br>
+let clicks = fromEvent(document, 'click');</code><br><br><br>
+
+
+<pre><code class="lang-js">
+<code class="source-code prettyprint"><span class="com">// typing "hello world"</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> input </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Rx</span><span class="pun">.</span><span class="typ">Observable</span><span class="pun">.</span><span class="pln">fromEvent</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">querySelector</span><span class="pun">(</span><span class="str">'input'</span><span class="pun">),</span><span class="pln"> </span><span class="str">'input'</span><span class="pun">);</span><span class="pln">
+  
+  </span><span class="com">// Filter out target values less than 3 characters long</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">filter</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">.</span><span class="pln">length </span><span class="pun">&gt;</span><span class="pln"> </span><span class="lit">2</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "hel"</span><span class="pln">
+  
+  </span><span class="com">// Delay the events</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">delay</span><span class="pun">(</span><span class="lit">200</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "h" -200ms-&gt; "e" -200ms-&gt; "l" ...</span><span class="pln">
+  
+  </span><span class="com">// Only let through an event every 200 ms</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">throttleTime</span><span class="pun">(</span><span class="lit">200</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "h" -200ms-&gt; "w"</span><span class="pln">
+  
+  </span><span class="com">// Let through latest event after 200 ms</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">debounceTime</span><span class="pun">(</span><span class="lit">200</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "o" -200ms-&gt; "d"</span><span class="pln">
+  
+  </span><span class="com">// Stop the stream of events after 3 events</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">take</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "hel"</span><span class="pln">
+  
+  </span><span class="com">// Passes through events until other observable triggers an event</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> stopStream </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Rx</span><span class="pun">.</span><span class="typ">Observable</span><span class="pun">.</span><span class="pln">fromEvent</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">querySelector</span><span class="pun">(</span><span class="str">'button'</span><span class="pun">),</span><span class="pln"> </span><span class="str">'click'</span><span class="pun">);</span><span class="pln">
+  input</span><span class="pun">.</span><span class="pln">takeUntil</span><span class="pun">(</span><span class="pln">stopStream</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">map</span><span class="pun">(</span><span class="kwd">event</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">target</span><span class="pun">.</span><span class="pln">value</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="pln">value </span><span class="pun">=&gt;</span><span class="pln"> console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">value</span><span class="pun">));</span><span class="pln"> </span><span class="com">// "hello" (click)</span>
+</code>
+</code></pre>
